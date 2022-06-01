@@ -23,19 +23,16 @@ OUTPUT2 = <<~"EOS"
 EOS
 
 def solve(input_str)
-  value = Array.new(1024)
-  next_ptr = Array.new(1024)
+  size = 1024
+  value = Array.new(size)
+  next_ptr = Array.new(size)
   value[0] = -1
   value[-1] = -1
-  next_ptr[0] = 1023
+  next_ptr[0] = size - 1
   next_ptr[-1] = -1
   back = 0
   empty_min_idx = 1
 
-  # 1.配列 value の empty_min_idx 番目に要素を代入
-  # 2.配列 next_ptr の値を変更
-  # 3.変数 back の値を変更
-  # 4.変数 empty_min_idx の値を変更
   input_str.split[1..].map(&:to_i).each do |e|
     value[empty_min_idx] = e
     next_ptr[empty_min_idx] = next_ptr[back]
@@ -43,10 +40,17 @@ def solve(input_str)
     back = empty_min_idx
     empty_min_idx += 1
   end
-  next_ptr
+
+  result = []
+  idx = next_ptr[0]
+  while value[idx] != -1
+    result << value[idx]
+    idx = next_ptr[idx]
+  end
+  result
 end
 
-p solve(INPUT2)
+puts solve(INPUT1)
 
 =begin
 片方向リスト実装編 step 2 (paizaランク C 相当)
