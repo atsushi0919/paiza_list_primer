@@ -26,6 +26,7 @@ OUTPUT2 = <<~"EOS"
 EOS
 
 def solve(input_str)
+  # 初期設定
   value = Array.new(1024)
   next_ptr = Array.new(1024)
   value[0] = -1
@@ -35,6 +36,7 @@ def solve(input_str)
   back = 0
   empty_min_idx = 1
 
+  # 入力・出力
   _, *a = input_str.split.map(&:to_i)
   a
 end

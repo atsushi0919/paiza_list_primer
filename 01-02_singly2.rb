@@ -23,6 +23,7 @@ OUTPUT2 = <<~"EOS"
 EOS
 
 def solve(input_str)
+  # 初期設定
   size = 1024
   value = Array.new(size)
   next_ptr = Array.new(size)
@@ -33,7 +34,11 @@ def solve(input_str)
   back = 0
   empty_min_idx = 1
 
-  input_str.split[1..].map(&:to_i).each do |e|
+  # 入力
+  _, *a = input_str.split.map(&:to_i)
+  
+  # 末尾に追加
+  a.each do |e|
     value[empty_min_idx] = e
     next_ptr[empty_min_idx] = next_ptr[back]
     next_ptr[back] = empty_min_idx
@@ -41,6 +46,7 @@ def solve(input_str)
     empty_min_idx += 1
   end
 
+  # 先頭から出力
   result = []
   idx = next_ptr[0]
   while value[idx] != -1

@@ -35,15 +35,18 @@ def solve(input_str)
   back = 0
   empty_min_idx = 1
 
-  insert_idx = 0
-  input_str.split[1..].map(&:to_i).each do |e|
+  # 入力
+  _, *a = input_str.split.map(&:to_i)
+  # 先頭に挿入
+  a.map(&:to_i).each do |e|
     value[empty_min_idx] = e
-    next_ptr[empty_min_idx] = next_ptr[insert_idx]
-    next_ptr[insert_idx] = empty_min_idx
+    next_ptr[empty_min_idx] = next_ptr[0]
+    next_ptr[0] = empty_min_idx
     back = empty_min_idx
     empty_min_idx += 1
   end
 
+  # 先頭から出力
   result = []
   idx = next_ptr[0]
   while value[idx] != -1

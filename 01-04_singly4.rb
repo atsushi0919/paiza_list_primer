@@ -26,6 +26,7 @@ def solve(input_str)
   empty_min_idx = 1
 
   n, k, *a = input_str.split.map(&:to_i)
+  # 末尾に挿入
   a.each do |e|
     value[empty_min_idx] = e
     next_ptr[empty_min_idx] = next_ptr[back]
@@ -34,20 +35,22 @@ def solve(input_str)
     empty_min_idx += 1
   end
 
-  puts "value   : #{value}"
-  puts "next_ptr: #{next_ptr}"
-  puts "back: #{back}, empty_min_idx: #{empty_min_idx}"
+  # 末尾から k 個削除
+  k.times do
+    prev_idx = next_ptr.index(back)
+    next_ptr[prev_idx] = next_ptr[back]
+    back = prev_idx
+    empty_min_idx = back
+  end
 
-  # 1.変数 back の前のノードの next_ptr を変更する
-  # 2.変数 back を変更
-
-  # result = []
-  # idx = next_ptr[0]
-  # while value[idx] != -1
-  #   result << value[idx]
-  #   idx = next_ptr[idx]
-  # end
-  # result
+  # 先頭から出力
+  result = []
+  idx = next_ptr[0]
+  while value[idx] != -1
+    result << value[idx]
+    idx = next_ptr[idx]
+  end
+  result
 end
 
 puts solve(INPUT2)
