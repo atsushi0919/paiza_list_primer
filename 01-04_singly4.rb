@@ -40,7 +40,6 @@ def solve(input_str)
     prev_idx = next_ptr.index(back)
     next_ptr[prev_idx] = next_ptr[back]
     back = prev_idx
-    empty_min_idx = back
   end
 
   # 先頭から出力
