@@ -1,72 +1,59 @@
-=begin
-片方向リスト実装編 step 6 (paizaランク B 相当)
-問題にチャレンジして、ユーザー同士で解答を教え合ったり、コードを公開してみよう！
+# 片方向リスト実装編 step 6 (paizaランク B 相当)
+# https://paiza.jp/works/mondai/list_primer/list_primer__singly_step6
 
-シェア用URL:
-https://paiza.jp/works/mondai/list_primer/list_primer__singly_step6
-問題文のURLをコピーする
- チャレンジする言語
+INPUT1 = <<~"EOS"
+  5 3 6
+  1
+  4
+  5
+  2
+  3
+EOS
+OUTPUT1 = <<~"EOS"
+  1
+  4
+  6
+  5
+  2
+  3
+EOS
 
-得意な言語を選択してください
-コードを書いて解いてみる
-問題
- 下記の問題をプログラミングしてみよう！
-N 個の要素からなる数列 A と数値 P, X が与えられます。
-A のすべての要素を順に片方向リストの末尾へ追加したのち、以下の操作をおこなってください。
+def solve(input_str)
+  size = 1024
+  value = Array.new(size)
+  next_ptr = Array.new(size)
+  value[0] = -1
+  value[-1] = -1
+  next_ptr[0] = size - 1
+  next_ptr[-1] = -1
+  back = 0
+  empty_min_idx = 1
 
-* P ≦ N の場合、 先頭から P 番目のノードの前に要素 X を挿入してください。
-* P = N + 1 の場合、片方向リストの末尾に要素 X を挿入してください。
+  n, pt, x, *a = input_str.split.map(&:to_i)
+  # a を挿入
+  a.each do |e|
+    value[empty_min_idx] = e
+    next_ptr[empty_min_idx] = next_ptr[back]
+    next_ptr[back] = empty_min_idx
+    back = empty_min_idx
+    empty_min_idx += 1
+  end
 
-その後、片方向リストのデータを先頭から順にすべて出力してください。
+  # pt の直前に挿入
+  prev_ptr = next_ptr.index(pt) || back
+  value[empty_min_idx] = x
+  next_ptr[empty_min_idx] = next_ptr[prev_ptr]
+  next_ptr[prev_ptr] = empty_min_idx
+  empty_min_idx += 1
 
-入力される値
-N P X
-A_1
-A_2
-...
-A_N
+  # 先頭から出力
+  result = []
+  idx = next_ptr[0]
+  while value[idx] != -1
+    result << value[idx]
+    idx = next_ptr[idx]
+  end
+  result
+end
 
-入力値最終行の末尾に改行が１つ入ります。
-文字列は標準入力から渡されます。 標準入力からの値取得方法はこちらをご確認ください
-期待する出力
-操作後の片方向リスト B 内のノードの値を先頭から順に改行区切りで出力してください。末尾に改行を入れ、余計な文字、空行を含んではいけません。
-
-
-B_1
-B_2
-...
-条件
-すべてのテストケースにおいて、以下の条件をみたします。
-
-・ N は 1 以上 100 未満
-・ P は 1 以上 N + 1 以下
-・ A_i, X は 1 以上 100 未満
-
-入力例1
-5 3 6
-1
-4
-5
-2
-3
-
-出力例1
-1
-4
-6
-5
-2
-3
-
-入力例2
-3 1 1
-7
-5
-4
-
-出力例2
-1
-7
-5
-4
-=end
+puts solve(STDIN.read)
