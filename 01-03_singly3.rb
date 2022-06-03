@@ -1,3 +1,6 @@
+# 片方向リスト実装編 step 3 (paizaランク B 相当)
+# https://paiza.jp/works/mondai/list_primer/list_primer__singly_step3
+
 INPUT1 = <<~"EOS"
   5
   3
@@ -25,7 +28,7 @@ OUTPUT2 = <<~"EOS"
 EOS
 
 def solve(input_str)
-  size = 10
+  size = 1024
   value = Array.new(size)
   next_ptr = Array.new(size)
   value[0] = -1
@@ -59,11 +62,11 @@ end
 puts solve(STDIN.read)
 
 =begin
-片方向リスト実装編 step 3 (paizaランク B 相当)
+
 問題にチャレンジして、ユーザー同士で解答を教え合ったり、コードを公開してみよう！
 
 シェア用URL:
-https://paiza.jp/works/mondai/list_primer/list_primer__singly_step3
+
 問題文のURLをコピーする
  チャレンジする言語
 
