@@ -21,19 +21,37 @@ OUTPUT2 = <<~"EOS"
   1
 EOS
 
-def solve(input_str)
-  # 初期設定
-  value = Array.new(1024)
-  next_ptr = Array.new(1024)
-  value[0] = -1
-  value[-1] = -1
-  next_ptr[0] = 1023
-  next_ptr[-1] = -1
-  back = 0
-  empty_min_idx = 1
+class SinglyLinkedList
+  SIZE = 1024
+  START_PTR = 0
+  END_PTR = SIZE - 1
+  attr_accessor :data
 
-  # 入力・出力
+  class Node
+    attr_accessor :value, :next_ptr
+
+    def initialize(value = nil, next_ptr = nil)
+      @value = value
+      @next_ptr = next_ptr
+    end
+  end
+
+  def initialize
+    @data = Array.new(SIZE) { Node.new }
+    @empty_min_idx = 1
+    @back = 0
+
+    @data[START_PTR].value = -1
+    @data[END_PTR].value = -1
+    @data[START_PTR].next_ptr = END_PTR
+    @data[END_PTR].next_ptr = -1
+  end
+end
+
+def solve(input_str)
   _, *a = input_str.split.map(&:to_i)
+
+  sll = SinglyLinkedList.new
   a
 end
 
